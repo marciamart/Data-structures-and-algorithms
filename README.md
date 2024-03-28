@@ -6,7 +6,7 @@ Aqui serão explanados alguns algoritmos de estrutura de dados e algoritmos rela
 ### ED.c
 
 ## *Tecnologias utilizadas:*
-Linguaguem: Python 3.11.3
+Linguaguem: 
 
 ## *como utilizar:*
 * topico
