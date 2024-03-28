@@ -1,14 +1,11 @@
 # Estruturas de dados e algortimos
 ## *Descrição:*
-Aqui serão explanados alguns algoritmos de estrutura de dados e algoritmos relacionados aos mesmo.
+lalala
 
 ## ***Neste repositório estão:***
-### ED.c
+### tamanho
 
-## *Tecnologias utilizadas:*
-Linguaguem: 
-
-## *como utilizar:*
+## *negrito*
 * topico
 normal
 ´´´
