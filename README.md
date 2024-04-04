@@ -1,13 +1,8 @@
 # Estruturas de dados e algortimos
 ## *Descrição:*
-lalala
+Implementação de estruturas e algoritmos, seguindo as recomendações do [Roadmap](https://roadmap.sh/datastructures-and-algorithms) e o livro Estrutura de dados e seus algoritmos do Jayme Luis Szwarcfiter.
 
 ## ***Neste repositório estão:***
-### tamanho
-
-## *negrito*
-* topico
-normal
-´´´
-code
-´´´
+- Complexidade de Algoritmos
+- Estrutura de dados básicas
+- Algoritmos de ordenação
