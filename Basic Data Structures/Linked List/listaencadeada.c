@@ -44,7 +44,6 @@ void adicionar(int valor, int pos){
     }
 }
 
-
 int remover(int pos){
     if(pos>= 0 && pos < tam){
         No *lixo;
@@ -86,15 +85,8 @@ int remover(int pos){
             aux1 = aux -> ant;
             free(lixo);
 
-        }
-        
-        
-        
-        
+        }    
     }
-    
-    
-    
     return 0;
 }
 
@@ -105,7 +97,6 @@ void imprimir(){
         aux = aux->prox;
     }
 }
-
 
 int main(){
     adicionar(10,0);
