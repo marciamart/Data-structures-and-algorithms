@@ -3,7 +3,7 @@
 
 void subir(int T[], int i){
     int j = i/2;
-    if (j >=   1){
+    if (j >= 1){
         if (T[i] > T[j])
         {
             int aux = T[i];
