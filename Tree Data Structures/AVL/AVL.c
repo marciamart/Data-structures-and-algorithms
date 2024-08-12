@@ -3,8 +3,7 @@
 #define V 1
 #define F 0
 
-struct no
-{
+struct no{
     int chave;
     int bal;
     struct no *esq, *dir;
@@ -21,6 +20,8 @@ void Caso2Rremover(No **pt, int *h);
 void Balancear(No **pt, char R, int *h);
 void trocar(No **pt, No **paiS);
 void removerAVL(int x, No **pt, int *h);
+int altura(No *pt);
+void EAVL(No *pt, int *avl);
 
 void posrdem(No *raiz) {
     if (raiz != NULL) {
@@ -32,7 +33,7 @@ void posrdem(No *raiz) {
 void inrdem(No *raiz) {
     if (raiz != NULL) {
         inrdem(raiz->esq);
-        printf("%d ", raiz->chave);
+        printf("%d - bal:%i ", raiz->chave, raiz->bal);
         inrdem(raiz->dir); 
           
     }
@@ -54,12 +55,18 @@ int main(){
     inserirAVL(19,&ptraiz, &h);
     inserirAVL(36,&ptraiz, &h);
     inserirAVL(37,&ptraiz, &h);
-    inserirAVL(49,&ptraiz, &h);
-    inserirAVL(10,&ptraiz, &h);
+    inserirAVL(9,&ptraiz, &h);
     inserirAVL(79,&ptraiz, &h);
-    removerAVL(19,&ptraiz, &h);
-    removerAVL(37,&ptraiz, &h);
-    removerAVL(36,&ptraiz, &h);
+
+    inrdem(ptraiz);
+    // removerAVL(19,&ptraiz, &h);
+    // removerAVL(37,&ptraiz, &h);
+    // removerAVL(36,&ptraiz, &h);
+    int eavl;
+    EAVL(ptraiz, &eavl);
+     
+    if (eavl == V){ printf("e avl\n");}
+    else{printf("nao e avl\n");}
     
     posrdem(ptraiz);
     printf("\n");
@@ -84,11 +91,17 @@ void Caso1Rinserir(No **pt, int *h){//rotação a direita
         ptv->esq = ptu;
         (*pt)->esq = ptv->dir;
         ptv->dir = (*pt);
-        switch (ptv->bal){
-        case 1: (*pt)->bal = 0; ptu->bal = -1; break;
-        case 0: (*pt)->bal = 0; ptu->bal = 0; break;
-        case -1: (*pt)->bal = 1; ptu->bal = 0; break;
+        if (ptv->bal == 1){(*pt)->bal = 0; ptu->bal = -1;}
+        else{if (ptv->bal == 0){(*pt)->bal = 0; ptu->bal = 0;}
+        else{(*pt)->bal = 1; ptu->bal = 0;}
         }
+        
+        // switch (ptv->bal){
+        // printf("\n%i\n\n",ptv->bal );
+        // case 1: (*pt)->bal = 0; ptu->bal = -1; break;
+        // case 0: (*pt)->bal = 0; ptu->bal = 0; break;
+        // case -1: (*pt)->bal = 1; ptu->bal = 0; break;
+        // }
         (*pt) = ptv;
     }
     (*pt)->bal = 0;
@@ -109,11 +122,16 @@ void Caso2Rinserir(No **pt, int *h){//rotação a esquerda
         ptv->dir = ptu;
         (*pt)->dir = ptv->esq;
         ptv->esq = (*pt);
-        switch (ptv->bal){
-        case 1: (*pt)->bal = -1; ptu->bal = 0; break;
-        case 0: (*pt)->bal = 0; ptu->bal = 0; break;
-        case -1: (*pt)->bal = 0; ptu->bal = 1; break;
+        if (ptv->bal == 1){(*pt)->bal = -1; ptu->bal = 0;}
+        else{if (ptv->bal == 0){(*pt)->bal = 0; ptu->bal = 0;}
+        else{(*pt)->bal = 0; ptu->bal = 1;}
         }
+        // switch (ptv->bal){
+        // printf("\n%i\n\n",ptv->bal );
+        // case 1: (*pt)->bal = -1; ptu->bal = 0; break;
+        // case 0: (*pt)->bal = 0; ptu->bal = 0; break;
+        // case -1: (*pt)->bal = 0; ptu->bal = 1; break;
+        // }
         (*pt) = ptv;
     }
     (*pt)->bal = 0;
@@ -133,27 +151,34 @@ void inserirAVL(int x, No **pt, int *h){
         if (x == (*pt)->chave){printf("elemento %i ja existe\n", x); return;}
         else if(x < (*pt)->chave){
             inserirAVL(x, &(*pt)->esq, h);
-            if (h == V){
-                switch ((*pt)->bal){
-                case 1:
-                    (*pt)->bal = 0; *h = F; break;
-                case 0:
-                    (*pt)->bal = -1; break;
-                case -1:
-                    Caso1Rinserir(pt,h); break;
+            if (*h == V){
+                
+                if ((*pt)->bal == 1){(*pt)->bal = 0; *h = F;}
+                else{if ((*pt)->bal == 0){(*pt)->bal = 0; ptu->bal = 0;}
+                else{(*pt)->bal = 0; ptu->bal = 1;}
                 }
+                // switch ((*pt)->bal){
+                // printf("\n%i\n\n",(*pt)->bal );
+                // case 1:
+                //     (*pt)->bal = 0; *h = F; break;
+                // case 0:
+                //     (*pt)->bal = -1; break;
+                // case -1:
+                //     Caso1Rinserir(pt,h); break;
+                // }
             }
         }else{
             inserirAVL(x, &(*pt)->dir, h);
-            if (h == V){
-                switch ((*pt)->bal){
-                case -1:
-                    (*pt)->bal = 0; *h = F; break;
-                case 0:
-                    (*pt)->bal = 1; break;
-                case 1:
-                    Caso2Rinserir(pt,h); break;
-                }
+            if (*h == V){
+                // switch ((*pt)->bal){
+                // printf("\n%i\n\n",(*pt)->bal );
+                // case -1:
+                //     (*pt)->bal = 0; *h = F; break;
+                // case 0:
+                //     (*pt)->bal = 1; break;
+                // case 1:
+                //     Caso2Rinserir(pt,h); break;
+                // }
             }  
         }
     } 
@@ -175,9 +200,10 @@ void Caso1Rremover(No **pt, int *h){
         ptv->dir = (*pt);
         (*pt) = ptv;
         switch (ptv->bal){
+        printf("\n%i\n\n", ptv->bal );
         case -1: ptu->bal = 0; (*pt)->esq->bal = 1; break;
-        case 0: ptu->bal = 0; (*pt)->esq->bal = 0; break;
-        case 1: ptu->bal = -1; (*pt)->esq->bal = 0; break;
+        case 0: ptu->bal = 0; (*pt)->dir->bal = 0; break;
+        case 1: ptu->bal = -1; (*pt)->dir->bal = 0; break;
         }
         (*pt)->bal = 0; *h = V;
     }
@@ -199,24 +225,27 @@ void Caso2Rremover(No **pt, int *h){
         ptv->esq = (*pt);
         (*pt) = ptv;
         switch (ptv->bal){
-        case -1: ptu->bal = 1; (*pt)->esq->bal = 0; break;
+        printf("\n%i\n\n", ptv->bal );
+        case 1: ptu->bal = 1; (*pt)->esq->bal = 0; break;
         case 0: ptu->bal = 0; (*pt)->esq->bal = 0; break;
-        case 1: ptu->bal = 0; (*pt)->esq->bal = -1; break;
+        case -1: ptu->bal = 0; (*pt)->esq->bal = -1; break;
         }
         (*pt)->bal = 0; *h = V;
     }
 }
 
 void Balancear(No **pt, char R, int *h){
-    if (h == V){
+    if (*h == V){
         if (R == 'D'){
             switch ((*pt)->bal){
+            printf("\n%i\n\n",(*pt)->bal );
             case 1: (*pt)->bal = 0; break;
             case 0: (*pt)->bal = -1; *h = F; break;
             case -1: Caso1Rremover(pt, h); break;
             }
         }else{
             switch ((*pt)->bal){
+            printf("\n%i\n\n",(*pt)->bal );
             case -1: (*pt)->bal = 0; break;
             case 0: (*pt)->bal = 1; *h = F; break;
             case 1: Caso2Rremover(pt, h); break;
@@ -235,7 +264,7 @@ void trocar(No **pt, No **paiS){
 }
 
 void removerAVL(int x, No **pt, int *h){
-    if ((*pt) == NULL){printf("elemento %i nao existe\n", x); *h = F; return;}
+    if ((*pt) == NULL){ *h = F; return;}
     else{
         if (x < (*pt)->chave){
             removerAVL(x, &(*pt)->esq, h);
@@ -272,6 +301,33 @@ void removerAVL(int x, No **pt, int *h){
             } 
         }
     }
+}
+
+int altura(No *pt){
+    if (pt == NULL){return 0;}
+    else{
+        int alturaesq = altura(pt->esq);
+        int alturadir = altura(pt->dir);
+
+        if (alturadir > alturaesq){ return alturadir + 1;}
+        else{return alturaesq + 1;}
+    }
+}
+
+void EAVL(No *pt, int *avl){
+    if (pt != NULL){
+        int alturaesq = altura(pt->esq);
+        int alturadir = altura(pt->dir);
+
+        if (abs(alturadir - alturaesq) > 1){ *avl = F;}
+        else{
+        int subarvesq, subarvdir;
+        EAVL(pt->esq, &subarvesq);
+        EAVL(pt->dir, &subarvdir);
+        if ( subarvesq == V && subarvdir == V){*avl = V;}
+        else{*avl = F;}
+        }
+    }else{*avl = V;}
 }
 
 int QtdNos(No *pt){
