@@ -34,18 +34,7 @@ void esvaziarInrdem(No *raiz) {
     }
 }
 
-int main(){
-    int h;
-    srand(time(NULL));
-    No *ptraiz[1000];
-
-    for(int i = 0; i < 1000; i++){
-        ptraiz[i] = NULL;
-    }
-
-    int chavesInseridas[10000];
-    int chaveExistente;
-
+void chavesInserir(int chavesInseridas[], int chaveExistente){
     for (int i = 0; i < 10000; i++){
         do{
             chaveExistente = F;
@@ -58,25 +47,71 @@ int main(){
             }
         }while(chaveExistente);
     }
+}
+
+void chavesRemover(int chavesInseridas[], int chavesRemover[]) {
+    int countRemover = 0;
+
+
+    srand(time(NULL));
+
+    while (countRemover < 1000) {
+        int chave = rand() % 100001;
+        int i;
+        for (i = 0; i < 10000; i++) {
+            if (chavesInseridas[i] == chave) {
+                break;
+            }
+        }
+        if (i < 10000) {
+            int j;
+            for (j = 0; j < countRemover; j++) {
+                if (chavesRemover[j] == chave) {
+                    break;
+                }
+            }
+            if (j == countRemover) {
+                chavesRemover[countRemover] = chave;
+                countRemover++;
+            }
+        }
+    }
+}
+
+int main(){
+    int h;
+    srand(time(NULL));
+    No *ptraiz[1000];
+
+    for(int i = 0; i < 1000; i++){
+        ptraiz[i] = NULL;
+    }
+
+    int chavesInseridas[10000];
+    int chaveExistente;
+    int chavesremover[1000];
 
     for (int i = 0; i < 1000; i++) { 
         int avl = F;
         printf("AVL %i:\n", i+1);
 
+        chavesInserir(chavesInseridas, &chaveExistente);
+
         for(int j = 0; j < 10000; j++){
             inserirAVL(chavesInseridas[j], &ptraiz[i], &h);
         }
 
-        printf("Total de nós inserido: %i\n", QtdNos(ptraiz[i]));
+        printf("Total de nos inserido: %i\n", QtdNos(ptraiz[i]));
         
         EAVL(ptraiz[i], &avl);
         if (avl == V){printf("E AVL :D\n");}
         else{printf("Nao e AVL :(\n");}
-        
+
+        chavesRemover(chavesInseridas, chavesremover);
         for (int j = 0; j < 1000; j++) { 
-            removerAVL(chavesInseridas[j], &ptraiz[i], &h);
+            removerAVL(chavesremover[j], &ptraiz[i], &h);
         }
-        printf("Total de nós removidos: %i\n", QtdNos(ptraiz[i]));
+        printf("Total de nos apos remocao: %i\n", QtdNos(ptraiz[i]));
 
         EAVL(ptraiz[i], &avl);
         if (avl == V){printf("Ainda e AVL :D\n");}
